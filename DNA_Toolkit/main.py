@@ -43,3 +43,8 @@ print(f"3'{colored(reverse_complement(rndDNASeq))}5'")
 print(f'[5] + GC Content: {gc_content(rndDNASeq)}%\n')
 print(
     f'[6] + GC Content in subsequence k=10: {gc_content_subsec(rndDNASeq, k=5)}\n')
+
+print(
+    f'[7] + Amino acid sequence: {translation(rndDNASeq)}\n'
+)
+print(f'[8] + Codon frequency (L): {codon_usage(rndDNASeq, "L")}')

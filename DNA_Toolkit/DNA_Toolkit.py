@@ -39,4 +39,20 @@ def gc_content_subsec(seq, k=10):
         res.append(gc_content(subseq))
     return res
 
+def translation(seq, init_pos=0):
+    return [DNA_Codons[seq[pos:pos+3]] for pos in range(init_pos, len(seq)-2, 3)]
+
+def codon_usage(seq, aminoacid):
+    tmplist = []
+    for i in range(0, len(seq)-2, 3):
+        if DNA_Codons[seq[i:i+3]] == aminoacid:
+            tmplist.append(seq[i:i+3])
+
+    freqDict = dict(collections.Counter(tmplist))
+    totalWight = sum(freqDict.values())
+    for seq in freqDict:
+        freqDict[seq] = round(freqDict[seq]/totalWight, 2)
+    return freqDict
+
 seq = 'ACTGCCGAATA'
+print(codon_usage(seq, "T"))
