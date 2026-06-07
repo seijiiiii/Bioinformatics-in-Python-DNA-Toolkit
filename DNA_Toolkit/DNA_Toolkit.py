@@ -54,5 +54,31 @@ def codon_usage(seq, aminoacid):
         freqDict[seq] = round(freqDict[seq]/totalWight, 2)
     return freqDict
 
-seq = 'ACTGCCGAATA'
-print(codon_usage(seq, "T"))
+def gen_reading_frames(seq):
+    frames = []
+    frames.append(translation(seq, 0))
+    frames.append(translation(seq, 1))
+    frames.append(translation(seq, 2))
+    # frames.append(translation(reverse_complement(seq), 0))
+    # frames.append(translation(reverse_complement(seq), 1))
+    # frames.append(translation(reverse_complement(seq), 2))
+    return frames
+
+def proteins_from_readingframe(aa_seq):
+    tmp_proteins = []
+    proteins = []
+    for aa in aa_seq:
+        if aa == "_":
+            if len(tmp_proteins) != 0:
+                proteins.extend(tmp_proteins)
+                tmp_proteins = []
+        else:
+            if aa == "M":
+                tmp_proteins.append("")
+            for j in range(len(tmp_proteins)):
+                tmp_proteins[j-1] += aa
+    proteins.extend(tmp_proteins)
+    return proteins
+
+seq = 'MACTGAMGGAATATACG_GTAGC'
+print(proteins_from_readingframe(seq))
