@@ -69,16 +69,28 @@ def proteins_from_readingframe(aa_seq):
     proteins = []
     for aa in aa_seq:
         if aa == "_":
-            if len(tmp_proteins) != 0:
-                proteins.extend(tmp_proteins)
+            if tmp_proteins:
+                for p in tmp_proteins:
+                    proteins.append(p)
                 tmp_proteins = []
         else:
             if aa == "M":
                 tmp_proteins.append("")
             for j in range(len(tmp_proteins)):
                 tmp_proteins[j-1] += aa
-    proteins.extend(tmp_proteins)
     return proteins
 
-seq = 'MACTGAMGGAATATACG_GTAGC'
-print(proteins_from_readingframe(seq))
+def all_proteins_from_orfs(seq, startReadPos=0, stopReadPos=0, order=False):
+    if startReadPos < stopReadPos:
+        rfs = gen_reading_frames(seq[startReadPos:stopReadPos])
+    else:
+        rfs = gen_reading_frames(seq)
+    res = []
+    for rf in rfs:
+        proteins = proteins_from_readingframe(rf)
+        for p in proteins:
+            res.append(p)  
+
+    if order:
+        return sorted(res, key=len, reverse=True)
+    return res
